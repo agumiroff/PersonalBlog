@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/domain/entities/user_entity.dart';
+import '../../../../core/domain/repository/repository.dart';
 import '../../../../core/presentation/pages/error_page.dart';
-import '../../../sign_up/domain/repository/repository.dart';
 
 class LoginUser {
   Future<bool> loginUser(UserData userData, BuildContext context) async {

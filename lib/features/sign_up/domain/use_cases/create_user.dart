@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:personal_blog/core/domain/entities/user_entity.dart';
-import '../repository/repository.dart';
+import '../../../../core/domain/repository/repository.dart';
 
 class CreateUserUseCase {
   createUser(UserData userData) async {

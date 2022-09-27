@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:personal_blog/features/sign_up/domain/repository/repository.dart';
+import '../../domain/repository/repository.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({super.key});
