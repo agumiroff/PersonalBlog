@@ -38,7 +38,7 @@ class SignInBloc extends Bloc<SignInEvents, SignInStates> {
     on<SignInEvent>((event, emit) async {
       LoginUser loginUser = LoginUser();
       if (await loginUser.loginUser(
-          UserData(email: event.emailController.text, password: event.passwordController.text, fullname: ''),
+          UserData(email: event.emailController.text, password: event.passwordController.text, [], [], '', ''),
           event.context)) {
         Navigator.pushNamed(event.context, 'profile');
       }

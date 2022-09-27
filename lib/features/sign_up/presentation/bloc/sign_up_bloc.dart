@@ -11,12 +11,13 @@ abstract class SignUpEvents {}
 
 class SignUpCheckEvent extends SignUpEvents {
   final TextEditingController emailController;
-  final TextEditingController nameController;
+  final TextEditingController firstNameController;
+  final TextEditingController secondNameController;
   final TextEditingController passwordController;
   final BuildContext context;
 
-  SignUpCheckEvent(this.context,
-      {required this.emailController, required this.nameController, required this.passwordController});
+  SignUpCheckEvent(this.context, this.firstNameController, this.secondNameController,
+      {required this.emailController, required this.passwordController});
 }
 
 class SignUpErrorEvent extends SignUpEvents {}
@@ -27,7 +28,8 @@ abstract class SignUpStates {}
 
 class SignUpStartState extends SignUpStates {
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController secondNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 }
 
@@ -50,12 +52,18 @@ class SignUpBloc extends Bloc<SignUpEvents, SignUpStates> {
       if (emptyFieldCheck.fieldsNotEmptyCheck(UserData(
         email: event.emailController.text,
         password: event.passwordController.text,
-        fullname: event.nameController.text,
+        [],
+        [],
+        event.firstNameController.text,
+        event.secondNameController.text,
       ))) {
         createUserUseCase.createUser(UserData(
           email: event.emailController.text,
           password: event.passwordController.text,
-          fullname: event.nameController.text,
+          [],
+          [],
+          event.firstNameController.text,
+          event.secondNameController.text,
         ));
         Navigator.push(
             event.context,

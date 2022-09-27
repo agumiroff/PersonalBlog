@@ -4,8 +4,8 @@ import '../../../features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import '../../../features/sign_in/presentation/pages/sign_in_page.dart';
 import '../../../features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import '../../../features/sign_up/presentation/pages/sign_up_page.dart';
+import '../../../features/user_profile/presentation/pages/user_profile.dart';
 import '../pages/error_page.dart';
-import '../pages/user_profile.dart';
 
 class Navigation {
   Route onGenerateRoute(RouteSettings routeSettings) {

@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../domain/repository/repository.dart';
 
-class UserProfile extends StatelessWidget {
-  const UserProfile({super.key});
+class UserProfile2 extends StatelessWidget {
+  const UserProfile2({super.key});
 
   @override
   Widget build(BuildContext context) {

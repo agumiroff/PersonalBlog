@@ -17,72 +17,78 @@ class SignUpPage extends StatelessWidget {
         if (state is SignUpStartState) {
           return Scaffold(
             body: Center(
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 34),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      BackButtonWidget(
-                        onTap: () {
-                          Navigator.pushNamed(context, 'sign_in');
-                        },
-                      ),
-                      const SizedBox(height: 43),
-                      const Text('Lets get started!', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 8),
-                      const Text('Enter you information bellow or login with the social account',
-                          style: TextStyle(fontSize: 18)),
-                      const SizedBox(height: 105),
-                      TextFieldWidget(
-                        labelText: 'E-mail',
-                        suffixText: '',
-                        onTap: () {},
-                        textEditingController: state.emailController,
-                        isPassword: false,
-                      ),
-                      const SizedBox(height: 35),
-                      TextFieldWidget(
-                        textEditingController: state.nameController,
-                        labelText: 'Full name',
-                        suffixText: '',
-                        onTap: () {},
-                        isPassword: false,
-                      ),
-                      const SizedBox(height: 35),
-                      TextFieldWidget(
-                        textEditingController: state.passwordController,
-                        labelText: 'Password',
-                        suffixText: '',
-                        onTap: () {},
-                        isPassword: true,
-                      ),
-                      const SizedBox(height: 42),
-                      Row(
-                        children: const [
-                          Text(
-                            'I agree with the Terms of User',
-                            style: TextStyle(color: Color(0xFF9F9F9F), fontSize: 18),
-                          ),
-                          Spacer(),
-                          ToggleWidget(),
-                        ],
-                      ),
-                      const SizedBox(height: 45),
-                      LargeButtonWidget(
-                        largeButtonText: 'SIGN UP',
-                        onTap: () {
-                          signUpBloc.add(SignUpCheckEvent(
-                            context,
-                            emailController: state.emailController,
-                            passwordController: state.passwordController,
-                            nameController: state.nameController,
-                          ));
-                        },
-                      ),
-                    ],
-                  ),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    BackButtonWidget(
+                      onTap: () {
+                        Navigator.pushNamed(context, 'sign_in');
+                      },
+                    ),
+                    const SizedBox(height: 43),
+                    const Text('Lets get started!', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 8),
+                    const Text('Enter you information bellow', style: TextStyle(fontSize: 18)),
+                    const SizedBox(height: 35),
+                    TextFieldWidget(
+                      labelText: 'E-mail',
+                      suffixText: '',
+                      onTap: () {},
+                      textEditingController: state.emailController,
+                      isPassword: false,
+                    ),
+                    const SizedBox(height: 35),
+                    TextFieldWidget(
+                      textEditingController: state.passwordController,
+                      labelText: 'Password',
+                      suffixText: '',
+                      onTap: () {},
+                      isPassword: true,
+                    ),
+                    const SizedBox(height: 35),
+                    TextFieldWidget(
+                      textEditingController: state.firstNameController,
+                      labelText: 'First name',
+                      suffixText: '',
+                      onTap: () {},
+                      isPassword: false,
+                    ),
+                    const SizedBox(height: 35),
+                    TextFieldWidget(
+                      textEditingController: state.secondNameController,
+                      labelText: 'Second name',
+                      suffixText: '',
+                      onTap: () {},
+                      isPassword: false,
+                    ),
+                    const SizedBox(height: 42),
+                    Row(
+                      children: const [
+                        Text(
+                          'I agree with the Terms of User',
+                          style: TextStyle(color: Color(0xFF9F9F9F), fontSize: 18),
+                        ),
+                        Spacer(),
+                        ToggleWidget(),
+                      ],
+                    ),
+                    const SizedBox(height: 45),
+                    LargeButtonWidget(
+                      largeButtonText: 'SIGN UP',
+                      onTap: () {
+                        signUpBloc.add(SignUpCheckEvent(
+                          context,
+                          emailController: state.emailController,
+                          passwordController: state.passwordController,
+                          state.firstNameController,
+                          state.secondNameController,
+                        ));
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
