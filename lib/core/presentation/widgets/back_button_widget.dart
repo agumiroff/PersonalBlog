@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BackButtonWidget extends StatelessWidget {
   final VoidCallback onTap;
@@ -12,8 +13,8 @@ class BackButtonWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: SizedBox(
-        width: 100,
-        height: 36,
+        width: 100.w,
+        height: 36.h,
         child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(200),

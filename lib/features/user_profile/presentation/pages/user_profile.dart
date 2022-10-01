@@ -1,82 +1,88 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:personal_blog/features/sign_in/presentation/pages/sign_in_page.dart';
+import 'package:personal_blog/features/user_profile/presentation/bloc/user_profile_bloc.dart';
+import 'package:personal_blog/features/user_profile/presentation/pages/bookmarks.dart';
+import 'package:personal_blog/features/user_profile/presentation/pages/my_posts.dart';
+import '../../../../core/presentation/styles/styles.dart';
+import '../../../../core/presentation/widgets/avatar_widget.dart';
 import '../../../../core/presentation/widgets/profile_button_widget.dart';
+import '../../../sign_in/presentation/bloc/sign_in_bloc.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    UserProfileBloc userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
     return Material(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Spacer(),
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(200),
-                  border: Border.all(
-                    color: const Color(0xFFF2F2F2),
-                    width: 4,
-                  )),
-              width: 150,
-              height: 150,
-              padding: const EdgeInsets.all(8),
-              child: const CircleAvatar(radius: 100, backgroundColor: Colors.blue, child: Text('FD')),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Flutter Dev',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Noah',
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.02),
-            ),
-            const Spacer(),
-            const SizedBox(
-              width: 335,
-              height: 60,
-              child: ProfileButtonWidget(
-                icon: Icons.bookmark,
-                text: 'Bookmarks',
-              ),
-            ),
-            const SizedBox(height: 10),
-            const SizedBox(
-              width: 335,
-              height: 60,
-              child: ProfileButtonWidget(
-                icon: Icons.folder,
-                text: 'My posts',
-              ),
-            ),
-            const SizedBox(height: 10),
-            const SizedBox(
-              width: 335,
-              height: 60,
-              child: ProfileButtonWidget(
-                icon: Icons.edit,
-                text: 'Edit profile',
-              ),
-            ),
-            const Spacer(flex: 6),
-            GestureDetector(
-              onTap: () {},
-              child: const Text(
-                'Log Out',
-                style: TextStyle(
-                    color: Color(0xFFDD553D),
-                    fontFamily: 'Noah',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.02),
-              ),
-            ),
-          ],
+        padding: EdgeInsets.symmetric(vertical: 34.h, horizontal: 20.w),
+        child: BlocBuilder<UserProfileBloc, UserProfileStates>(
+          builder: (context, state) {
+            if (state is ShowBookmarksState) {
+              return BookMarks(userProfileBloc: userProfileBloc);
+            }
+            if (state is ShowMyPostsState) {
+              return MyPosts(userProfileBloc: userProfileBloc, listOfWidget: state.listofData,);
+            }
+            if (state is UserProfileLoadingState) {
+              userProfileBloc.add(LoadUserDataEvent(context: context));
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is UserProfileStartState) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 45.h),
+                    AvatarWidget(text: '${state.firstName[0]}${state.secondName[0]}'),
+                    SizedBox(height: 10.h),
+                    Text(
+                      '${state.firstName} ${state.secondName}',
+                      style: textStyles.headerText,
+                    ),
+                    SizedBox(height: 25.h),
+                    ProfileButtonWidget(
+                      icon: Icons.bookmark,
+                      text: 'Bookmarks',
+                      onTap: () {
+                        userProfileBloc.add(ShowBookmarksEvent());
+                      },
+                    ),
+                    SizedBox(height: 10.h),
+                    ProfileButtonWidget(
+                      icon: Icons.folder,
+                      text: 'My posts',
+                      onTap: () {
+                        userProfileBloc.add(ShowMyPostsEvent());
+                      },
+                    ),
+                    SizedBox(height: 10.h),
+                    ProfileButtonWidget(
+                      icon: Icons.edit,
+                      text: 'Edit profile',
+                      onTap: () {},
+                    ),
+                    SizedBox(height: 209.h),
+                    GestureDetector(
+                      onTap: () {
+                        userProfileBloc.add(LogOutEvent(context: context));
+                      },
+                      child: Text(
+                        'Log Out',
+                        style: textStyles.logOutText,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          },
         ),
       ),
     );

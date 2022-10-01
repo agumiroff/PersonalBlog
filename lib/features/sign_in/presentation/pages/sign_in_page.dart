@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:personal_blog/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import '../../../../core/presentation/widgets/back_button_widget.dart';
 import '../../../../core/presentation/widgets/large_button_widget.dart';
@@ -7,35 +8,28 @@ import '../../../../core/presentation/widgets/text_field_widget.dart';
 import '../../../../core/presentation/widgets/toggle_widget.dart';
 
 class SignInPage extends StatelessWidget {
-  final double width = double.infinity;
   const SignInPage({super.key});
   @override
   Widget build(BuildContext context) {
     SignInBloc signInBloc = BlocProvider.of<SignInBloc>(context);
     return BlocBuilder<SignInBloc, SignInStates>(builder: (context, state) {
       if (state is SignInStartState) {
-        return Material(
-          child: Center(
-            child: Container(
-              width: width,
-              padding: const EdgeInsets.symmetric(vertical: 34, horizontal: 20),
-              decoration: const BoxDecoration(
-                border: Border.symmetric(
-                  vertical: BorderSide(color: Colors.grey),
-                ),
-              ),
+        return Scaffold(
+          body: Center(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(vertical: 34.h, horizontal: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 24.h),
                   BackButtonWidget(
                     onTap: () {},
                   ),
-                  const Spacer(flex: 1),
-                  const SizedBox(height: 43),
-                  const Text('Welcome back!', style: TextStyle(fontSize: 43, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  const Text('Enter your credential to continue', style: TextStyle(fontSize: 20)),
-                  const SizedBox(height: 110),
+                  SizedBox(height: 43.h),
+                  Text('Welcome back!', style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w800)),
+                  SizedBox(height: 8.h),
+                  Text('Enter your credential to continue', style: TextStyle(fontSize: 18.sp)),
+                  SizedBox(height: 110.h),
                   TextFieldWidget(
                     labelText: 'E-mail',
                     suffixText: '',
@@ -43,28 +37,28 @@ class SignInPage extends StatelessWidget {
                     textEditingController: state.emailController,
                     isPassword: false,
                   ),
-                  const SizedBox(height: 35),
+                  SizedBox(height: 35.h),
                   TextFieldWidget(
                     labelText: 'Password',
-                    suffixText: 'Forgot?',
+                    suffixText: 'Forget?',
                     onTap: () {
                       Navigator.pushNamed(context, 'sign_up');
                     },
                     textEditingController: state.passwordController,
                     isPassword: true,
                   ),
-                  const Spacer(),
+                  SizedBox(height: 35.h),
                   Row(
-                    children: const [
+                    children: [
                       Text(
                         'Remember me next time',
-                        style: TextStyle(color: Color(0xFF9F9F9F), fontSize: 22),
+                        style: TextStyle(color: const Color(0xFF9F9F9F), fontSize: 18.sp),
                       ),
-                      Spacer(),
-                      ToggleWidget(),
+                      const Spacer(),
+                      const ToggleWidget(),
                     ],
                   ),
-                  const Spacer(flex: 2),
+                  SizedBox(height: 178.h),
                   LargeButtonWidget(
                     largeButtonText: 'SIGN IN',
                     onTap: () {

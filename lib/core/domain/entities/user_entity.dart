@@ -3,8 +3,8 @@ class UserData {
   final String password;
   final String firstName;
   final String secondName;
-  final List<String>? posts;
-  final List<String>? bookMarks;
+  final List<dynamic>? posts;
+  final List<dynamic>? bookMarks;
 
   UserData(this.posts, this.bookMarks, this.firstName, this.secondName, {required this.email, required this.password});
 

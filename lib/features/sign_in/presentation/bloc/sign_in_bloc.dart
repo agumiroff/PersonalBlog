@@ -40,7 +40,7 @@ class SignInBloc extends Bloc<SignInEvents, SignInStates> {
       if (await loginUser.loginUser(
           UserData(email: event.emailController.text, password: event.passwordController.text, [], [], '', ''),
           event.context)) {
-        Navigator.pushNamed(event.context, 'profile');
+        Navigator.pushNamed(event.context, '/');
       }
     });
   }

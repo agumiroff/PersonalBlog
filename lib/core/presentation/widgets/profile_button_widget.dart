@@ -1,38 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:personal_blog/core/presentation/styles/styles.dart';
 
 class ProfileButtonWidget extends StatelessWidget {
   final IconData icon;
   final String text;
-
+  final VoidCallback onTap;
   const ProfileButtonWidget({
     Key? key,
     required this.icon,
     required this.text,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: const Color(0xFFF2F2F2)),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Icon(icon),
-              const SizedBox(width: 8),
-              Text(
-                text,
-                style: const TextStyle(
-                    color: Color(0xFF121212),
-                    fontFamily: 'Noah',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 0.02),
+    return GestureDetector(
+      onTap: onTap,
+      child: SizedBox(
+        width: 335.w,
+        height: 60.h,
+        child: DecoratedBox(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.r), color: const Color(0xFFF2F2F2)),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 18.w),
+              child: Row(
+                children: [
+                  Icon(icon),
+                  const SizedBox(width: 8),
+                  Text(
+                    text,
+                    style: textStyles.elevatedButtonText,
+                  ),
+                  const Spacer(),
+                  const Icon(Icons.message)
+                ],
               ),
-              const Spacer(),
-              const Icon(Icons.message)
-            ],
-          ),
-        ));
+            )),
+      ),
+    );
   }
 }

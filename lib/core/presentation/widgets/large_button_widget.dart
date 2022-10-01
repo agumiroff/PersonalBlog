@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LargeButtonWidget extends StatelessWidget {
   final VoidCallback onTap;
@@ -11,8 +12,8 @@ class LargeButtonWidget extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: SizedBox(
-          width: 335,
-          height: 46,
+          width: 335.w,
+          height: 46.h,
           child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(200),
