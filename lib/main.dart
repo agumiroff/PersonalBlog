@@ -3,9 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:personal_blog/core/data/firebase_keys.dart';
-import 'package:personal_blog/core/presentation/pages/success_page.dart';
-import 'package:personal_blog/features/sign_up/presentation/pages/sign_up_page.dart';
-import 'core/presentation/navigation/navigation.dart';
+import 'core/presentation/navigation/global_routes.dart';
+import 'features/user_profile/service_locator/service_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +21,7 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
+  setupLocator();
   runApp(const MyApp());
 }
 
@@ -32,17 +32,21 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (BuildContext context, Widget? child) {
-        return MyHomePage();
+        return const MyHomePage();
       },
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({Key? key}) : super(key: key);
-  final Navigation navigation = Navigation();
+  const MyHomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(onGenerateRoute: navigation.onGenerateRoute);
+    final GlobalRoutes globalRoutes = GlobalRoutes();
+    return MaterialApp(
+      navigatorKey: locator<ServiceLocator>().globalNavigationService.globalNavigatorKey,
+      onGenerateRoute: globalRoutes.onGenerateRoute,
+      initialRoute: '/',
+    );
   }
 }

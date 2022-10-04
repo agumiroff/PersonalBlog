@@ -6,7 +6,7 @@ class UserProfileRepository {
   Future<Map<String, dynamic>> getUserData() async {
     final currentUserId = repository.firebaseAuth.currentUser!.uid;
     DocumentSnapshot snapShot = await repository.firestore.collection('users').doc(currentUserId).get();
-    tempMap = snapShot.data() as Map<String, dynamic>;
+    tempMap =  snapShot.data() as Map<String, dynamic>;
     return tempMap;
   }
 }

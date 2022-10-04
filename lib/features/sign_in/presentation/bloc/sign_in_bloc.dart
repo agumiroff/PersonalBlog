@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_blog/core/domain/entities/user_entity.dart';
+import 'package:personal_blog/features/user_profile/service_locator/service_locator.dart';
 import '../../domain/use_cases/sign_in.dart';
 
 //Events
@@ -40,7 +41,7 @@ class SignInBloc extends Bloc<SignInEvents, SignInStates> {
       if (await loginUser.loginUser(
           UserData(email: event.emailController.text, password: event.passwordController.text, [], [], '', ''),
           event.context)) {
-        Navigator.pushNamed(event.context, '/');
+        locator<ServiceLocator>().globalNavigationService.navigateTo('/');
       }
     });
   }

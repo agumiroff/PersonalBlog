@@ -4,7 +4,7 @@ import 'package:personal_blog/features/add_post/presentation/bloc/add_post_bloc.
 import 'package:personal_blog/features/add_post/presentation/pages/add_post_page.dart';
 import 'package:personal_blog/features/home/presentation/pages/home_page.dart';
 import 'package:personal_blog/features/user_profile/presentation/bloc/user_profile_bloc.dart';
-import 'package:personal_blog/features/user_profile/presentation/pages/user_profile.dart';
+import 'package:personal_blog/features/user_profile/presentation/pages/profile_settings.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _MainPageState extends State<MainPage> {
       ),
       BlocProvider(
         create: (context) => UserProfileBloc(),
-        child: const UserProfile(),
+        child: const ProfileSettings(),
       ),
     ];
     return Scaffold(

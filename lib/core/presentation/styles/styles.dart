@@ -43,6 +43,13 @@ class TextStyles {
       fontWeight: FontWeight.w400,
       letterSpacing: 0.02);
 
+  TextStyle dateStyle = TextStyle(
+      color: const Color(0xFF9F9F9F),
+      fontFamily: 'Noah',
+      fontSize: 12.sp,
+      fontWeight: FontWeight.w400,
+      letterSpacing: 0.02);
+
   TextStyle textStyle = TextStyle(
     color: Colors.black,
     fontFamily: 'Noah',
