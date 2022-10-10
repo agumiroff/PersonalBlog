@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:personal_blog/features/user_profile/presentation/bloc/user_profile_bloc.dart';
-
 import '../../../../core/presentation/styles/styles.dart';
 import '../../../../core/presentation/widgets/post_view.dart';
 import '../../service_locator/service_locator.dart';
@@ -34,7 +33,8 @@ class _PostFeedState extends State<PostFeed> {
                     children: [
                       TextButton(
                           onPressed: () {
-                            locator<ServiceLocator>().navigationService.goback();
+                            BlocProvider.of<UserProfileBloc>(context).add(ShowMyPostsEvent());
+                            locator.navigationService.goback();
                           },
                           child: Text('Cancel', style: textStyles.textButtonText)),
                       Text(

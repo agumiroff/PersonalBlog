@@ -36,7 +36,8 @@ class _MyPostsState extends State<MyPosts> {
                   alignment: Alignment.topLeft,
                   child: TextButton(
                       onPressed: () {
-                       locator<ServiceLocator>().navigationService.goback();
+                        BlocProvider.of<UserProfileBloc>(context).add(UserProfileMainEvent());
+                        locator.navigationService.goback();
                       },
                       child: Text('Cancel', style: textStyles.textButtonText)),
                 )),

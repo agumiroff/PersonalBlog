@@ -6,6 +6,8 @@ import 'package:personal_blog/features/home/presentation/pages/home_page.dart';
 import 'package:personal_blog/features/user_profile/presentation/bloc/user_profile_bloc.dart';
 import 'package:personal_blog/features/user_profile/presentation/pages/profile_settings.dart';
 
+import '../navigation/global_navigation.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -25,7 +27,7 @@ class _MainPageState extends State<MainPage> {
         child: const AddPostPage(),
       ),
       BlocProvider(
-        create: (context) => UserProfileBloc(),
+        create: (context) => UserProfileBloc(GlobalNavigationService()),
         child: const ProfileSettings(),
       ),
     ];

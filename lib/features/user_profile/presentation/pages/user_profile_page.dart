@@ -19,14 +19,12 @@ class UserProfilePage extends StatefulWidget {
 class _UserProfilePageState extends State<UserProfilePage> {
   @override
   void initState() {
-    BlocProvider.of<UserProfileBloc>(context).add(UserProfileDataCheck());
-    print('initState');
+    BlocProvider.of<UserProfileBloc>(context).add(PreloadUserDataEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('build');
     UserProfileBloc userProfileBloc = BlocProvider.of<UserProfileBloc>(context);
     return BlocBuilder<UserProfileBloc, UserProfileStates>(builder: (context, state) {
       if (state is UserProfileMainState) {
@@ -46,7 +44,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 icon: Icons.bookmark,
                 text: 'Bookmarks',
                 onTap: () {
-                  locator<ServiceLocator>().navigationService.navigateTo('bookmarks');
+                  locator.navigationService.navigateTo('bookmarks');
                 },
               ),
               SizedBox(height: 10.h),
@@ -54,7 +52,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 icon: Icons.folder,
                 text: 'My posts',
                 onTap: () {
-                  locator<ServiceLocator>().navigationService.navigateTo('posts');
+                  locator.navigationService.navigateTo('posts');
                 },
               ),
               SizedBox(height: 10.h),
@@ -62,7 +60,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 icon: Icons.edit,
                 text: 'Edit profile',
                 onTap: () {
-                  locator<ServiceLocator>().navigationService.navigateTo('edit_profile');
+                  locator.navigationService.navigateTo('edit_profile');
                 },
               ),
               SizedBox(height: 209.h),

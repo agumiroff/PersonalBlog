@@ -5,8 +5,9 @@ import 'package:personal_blog/core/domain/entities/post_entity.dart';
 import 'package:personal_blog/core/domain/repository/repository.dart';
 import 'package:personal_blog/features/user_profile/domain/data_storage.dart';
 import 'package:personal_blog/features/user_profile/domain/use_cases/create_user_data.dart';
-import 'package:personal_blog/features/user_profile/domain/use_cases/create_list_of_posts.dart';
+import 'package:personal_blog/features/user_profile/domain/use_cases/get_list_of_posts.dart';
 import 'package:personal_blog/features/user_profile/service_locator/service_locator.dart';
+import '../../../../core/presentation/navigation/global_navigation.dart';
 
 //================================States================================
 abstract class UserProfileStates {}
@@ -50,8 +51,6 @@ class ShowPostFeedEvent extends UserProfileEvents {}
 
 class UserProfileMainEvent extends UserProfileEvents {}
 
-class UserProfileDataCheck extends UserProfileEvents {}
-
 class PreloadUserDataFailedEvent extends UserProfileEvents {}
 
 class LogOutEvent extends UserProfileEvents {}
@@ -63,26 +62,26 @@ class ShowBookmarksEvent extends UserProfileEvents {}
 class ShowMyPostsEvent extends UserProfileEvents {}
 
 class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileStates> {
-  UserProfileBloc() : super(UserProfileLoadingState()) {
-    on<UserProfileDataCheck>((event, emit) {
-      if (dataStorage.userData != null) {
-        add(UserProfileMainEvent());
-        print('notNull');
-      }
-      if (dataStorage.userData == null) {
-        add(PreloadUserDataEvent());
-        print('null');
-      }
-    });
+  final GlobalNavigationService globalNavigationService;
+
+  UserProfileBloc(this.globalNavigationService) : super(UserProfileLoadingState()) {
     on<PreloadUserDataEvent>((event, emit) async {
-      if (repository.firebaseAuth.currentUser?.getIdToken() != null) {
+      emit(UserProfileLoadingState());
+      if (repository.firebaseAuth.currentUser == null) {
+        print('=====================================');
+        locator.globalNavigationService.navigateTo('sign_in');
+      } else {
         dataStorage.userData = await CreateUserData().createUserData();
         add(UserProfileMainEvent());
-      } else {
-        locator<ServiceLocator>().globalNavigationService.navigateTo('sign_in');
+        if (dataStorage.postData == null) {
+          DocumentSnapshot<Map<String, dynamic>> mapOfUsers =
+              await repository.firestore.collection('users').doc(repository.firebaseAuth.currentUser!.uid).get();
+          dataStorage.postData = await GetListOfPosts().getListOfPosts(mapOfUsers);
+        }
       }
     });
     on<UserProfileMainEvent>((event, emit) async {
+      emit(UserProfileLoadingState());
       emit(UserProfileMainState(
         firstName: dataStorage.userData!.firstName,
         secondName: dataStorage.userData!.secondName,
@@ -94,27 +93,22 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileStates> {
     });
     on<ShowMyPostsEvent>((event, emit) async {
       UserProfileLoadingState();
-      if (dataStorage.postData == null) {
-        DocumentSnapshot<Map<String, dynamic>> mapOfUsers =
-            await repository.firestore.collection('users').doc(repository.firebaseAuth.currentUser!.uid).get();
-        dataStorage.postData = mapOfUsers;
-        print('null posts');
-      } else {
-        print('not null posts');
-      }
-      emit(ShowMyPostsState(listofData: await CreateListOfPosts().createListOfPosts(dataStorage.postData!)));
+      emit(ShowMyPostsState(listofData: dataStorage.postData!));
     });
-    on<ShowPostFeedEvent>((event, emit) async {
+    on<ShowPostFeedEvent>((event, emit) {
+      emit(UserProfileLoadingState());
       emit(ShowPostFeedState(
         firstName: dataStorage.userData!.firstName,
         secondName: dataStorage.userData!.secondName,
-        listOfPosts: await CreateListOfPosts().createListOfPosts(dataStorage.postData!),
+        listOfPosts: dataStorage.postData!,
       ));
     });
     on<LogOutEvent>((event, emit) {
+      emit(UserProfileLoadingState());
       repository.firebaseAuth.signOut();
       dataStorage.userData = null;
-      locator<ServiceLocator>().globalNavigationService.navigateTo('sign_in');
+      dataStorage.postData = null;
+      locator.globalNavigationService.navigateTo('sign_in');
     });
   }
 }

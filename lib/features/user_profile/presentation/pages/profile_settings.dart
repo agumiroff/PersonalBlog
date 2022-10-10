@@ -22,43 +22,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   Widget build(BuildContext context) {
     UserProfileNavigation navigation = UserProfileNavigation();
     return MaterialApp(
-      navigatorKey: locator<ServiceLocator>().navigationService.navigatorKey,
+      navigatorKey: locator.navigationService.navigatorKey,
       onGenerateRoute: navigation.onGenerateRoute,
       initialRoute: '/',
-
-      // child: BlocBuilder<UserProfileBloc, UserProfileStates>(
-      //   builder: (context, state) {
-      //     if (state is UserProfileMainState) {
-      //       return UserProfilePage(
-      //         userProfileBloc: userProfileBloc,
-      //         firstName: state.firstName,
-      //         secondName: state.secondName,
-      //       );
-      //     }
-      //     if (state is PreloadUserDataFailed) {
-      //       Navigator.pushNamed(context, 'sign_in');
-      //     }
-      //     if (state is ShowPostFeedState) {
-      //       return PostFeed(postData: state.listOfPosts);
-      //     }
-      //     if (state is ShowBookmarksState) {
-      //       return BookMarks(userProfileBloc: userProfileBloc);
-      //     }
-      //     if (state is ShowMyPostsState) {
-      //       return MyPosts(
-      //         userProfileBloc: userProfileBloc,
-      //         postData: state.listofData,
-      //       );
-      //     }
-      //     if (state is UserProfileLoadingState) {
-      //       return const Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     }
-      //
-      //     return const SizedBox.shrink();
-      //   },
-      // ),
     );
   }
 }

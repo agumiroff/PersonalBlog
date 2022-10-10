@@ -44,7 +44,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final GlobalRoutes globalRoutes = GlobalRoutes();
     return MaterialApp(
-      navigatorKey: locator<ServiceLocator>().globalNavigationService.globalNavigatorKey,
+      navigatorKey: locator.globalNavigationService.globalNavigatorKey,
       onGenerateRoute: globalRoutes.onGenerateRoute,
       initialRoute: '/',
     );
