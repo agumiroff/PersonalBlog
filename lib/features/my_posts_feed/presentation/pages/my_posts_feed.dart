@@ -1,30 +1,38 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:personal_blog/features/user_profile/presentation/bloc/user_profile_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/presentation/styles/styles.dart';
 import '../../../../core/presentation/widgets/post_view.dart';
-import '../../service_locator/service_locator.dart';
+import '../bloc/my_post_feed_bloc.dart';
 
-class PostFeed extends StatefulWidget {
-  const PostFeed({Key? key}) : super(key: key);
+class MyPostFeed extends StatefulWidget {
+  const MyPostFeed({Key? key}) : super(key: key);
 
   @override
-  State<PostFeed> createState() => _PostFeedState();
+  State<MyPostFeed> createState() => _MyPostFeedState();
 }
 
-class _PostFeedState extends State<PostFeed> {
+class _MyPostFeedState extends State<MyPostFeed> {
   @override
   void initState() {
-    BlocProvider.of<UserProfileBloc>(context).add(ShowPostFeedEvent());
+    BlocProvider.of<MyPostFeedBloc>(context).add(ShowMyPostFeedEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserProfileBloc, UserProfileStates>(
+    return BlocBuilder<MyPostFeedBloc, MyPostFeedStates>(
       builder: (context, state) {
-        if (state is ShowPostFeedState) {
+        if (state is MyPostFeedLoadingState) {
+          return const Material(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        if (state is ShowMyPostFeedState) {
           return Material(
             child: Column(
               children: [
@@ -33,14 +41,19 @@ class _PostFeedState extends State<PostFeed> {
                     children: [
                       TextButton(
                           onPressed: () {
-                            BlocProvider.of<UserProfileBloc>(context).add(ShowMyPostsEvent());
-                            locator.navigationService.goback();
+                            context.go('/my_posts');
                           },
                           child: Text('Cancel', style: textStyles.textButtonText)),
-                      Text(
-                        '${state.firstName} ${state.secondName}',
-                        style: textStyles.textStyle,
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            '${state.userData.firstName} ${state.userData.secondName}',
+                            style: textStyles.textStyle,
+                          ),
+                        ),
                       ),
+                      SizedBox(width: 60.w),
                     ],
                   ),
                 ),
@@ -52,6 +65,7 @@ class _PostFeedState extends State<PostFeed> {
                               postImage: postData.imagePath,
                               postDescription: postData.postDescription,
                               dateTime: postData.dateTime,
+                              firstName: state.userData.firstName,
                             ))
                         .toList(),
                   ),

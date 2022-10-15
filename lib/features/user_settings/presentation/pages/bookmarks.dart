@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/presentation/styles/styles.dart';
-import '../../service_locator/service_locator.dart';
-
-import '../bloc/user_profile_bloc.dart';
+import '../bloc/user_settings_bloc.dart';
 
 class BookMarks extends StatefulWidget {
   const BookMarks({Key? key}) : super(key: key);
@@ -15,13 +14,13 @@ class BookMarks extends StatefulWidget {
 class _BookMarksState extends State<BookMarks> {
   @override
   void initState() {
-    BlocProvider.of<UserProfileBloc>(context).add(ShowBookmarksEvent());
+    BlocProvider.of<UserSettingsBloc>(context).add(ShowBookmarksEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserProfileBloc, UserProfileStates>(
+    return BlocBuilder<UserSettingsBloc, UserProfileStates>(
       builder: (context, state) {
         if (state is ShowBookmarksState) {
           return Material(
@@ -32,8 +31,8 @@ class _BookMarksState extends State<BookMarks> {
                   alignment: Alignment.topLeft,
                   child: TextButton(
                       onPressed: () {
-                        BlocProvider.of<UserProfileBloc>(context).add(UserProfileMainEvent());
-                        locator.navigationService.goback();
+                        BlocProvider.of<UserSettingsBloc>(context).add(UserProfileMainEvent());
+                        context.pop();
                       },
                       child: Text('Cancel', style: textStyles.textButtonText)),
                 )),

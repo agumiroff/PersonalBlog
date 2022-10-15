@@ -4,10 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:personal_blog/core/presentation/styles/styles.dart';
 
 class PostView extends StatelessWidget {
+  final String firstName;
   final String postImage;
   final String postDescription;
   final Timestamp dateTime;
-  const PostView({Key? key, required this.postImage, required this.postDescription, required this.dateTime})
+  const PostView(
+      {Key? key,
+      required this.postImage,
+      required this.postDescription,
+      required this.dateTime,
+      required this.firstName})
       : super(key: key);
 
   @override
@@ -18,7 +24,7 @@ class PostView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('sdsad'),
+            Text(firstName),
             SizedBox(height: 10.h),
             SizedBox(
               width: 375.w,

@@ -1,30 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:personal_blog/core/presentation/styles/styles.dart';
-import 'package:personal_blog/features/user_profile/service_locator/service_locator.dart';
-import '../bloc/user_profile_bloc.dart';
+import 'package:personal_blog/features/user_posts/presentation/user_posts_bloc.dart';
 
-class MyPosts extends StatefulWidget {
-  const MyPosts({
+class UserPosts extends StatelessWidget {
+  const UserPosts({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<MyPosts> createState() => _MyPostsState();
-}
-
-class _MyPostsState extends State<MyPosts> {
-  @override
-  void initState() {
-    BlocProvider.of<UserProfileBloc>(context).add(ShowMyPostsEvent());
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Material(
-      child: BlocBuilder<UserProfileBloc, UserProfileStates>(builder: (context, state) {
-        if (state is UserProfileLoadingState) {
+      child: BlocBuilder<UserPostsBloc, UserPostsStates>(builder: (context, state) {
+        if (state is LoadingPosts) {
           return const Center(child: CircularProgressIndicator());
         }
         if (state is ShowMyPostsState) {
@@ -36,8 +25,7 @@ class _MyPostsState extends State<MyPosts> {
                   alignment: Alignment.topLeft,
                   child: TextButton(
                       onPressed: () {
-                        BlocProvider.of<UserProfileBloc>(context).add(UserProfileMainEvent());
-                        locator.navigationService.goback();
+                        context.pop();
                       },
                       child: Text('Cancel', style: textStyles.textButtonText)),
                 )),
@@ -46,11 +34,11 @@ class _MyPostsState extends State<MyPosts> {
                     mainAxisSpacing: 1,
                     crossAxisCount: 3,
                     crossAxisSpacing: 1,
-                    children: state.listofData
+                    children: state.listOfData
                         .map(
                           (post) => GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, 'feed');
+                              context.go('/my_posts/my_posts_feed');
                             },
                             child: Image.network(post.imagePath, fit: BoxFit.cover),
                           ),

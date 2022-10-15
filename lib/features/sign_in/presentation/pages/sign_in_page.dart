@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:personal_blog/core/presentation/pages/error_page.dart';
 import 'package:personal_blog/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import '../../../../core/presentation/widgets/back_button_widget.dart';
 import '../../../../core/presentation/widgets/large_button_widget.dart';
@@ -13,6 +15,9 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     SignInBloc signInBloc = BlocProvider.of<SignInBloc>(context);
     return BlocBuilder<SignInBloc, SignInStates>(builder: (context, state) {
+      if (state is SignInErrorState) {
+        return const ErrorPage();
+      }
       if (state is SignInStartState) {
         return Scaffold(
           body: Center(
@@ -42,7 +47,7 @@ class SignInPage extends StatelessWidget {
                     labelText: 'Password',
                     suffixText: 'Forget?',
                     onTap: () {
-                      Navigator.pushNamed(context, 'sign_up');
+                      context.go('/sign_up');
                     },
                     textEditingController: state.passwordController,
                     isPassword: true,

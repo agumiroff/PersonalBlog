@@ -1,22 +1,40 @@
 import 'package:flutter/material.dart';
 
 class SuccessPage extends StatelessWidget {
-  final String value;
-  const SuccessPage({Key? key, required this.value}) : super(key: key);
+  const SuccessPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Material(child: Opacity(opacity: 1, child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(child: Text(value)),
-        const SizedBox(height: 40),
-        ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, 'sign_in');
-            },
-            child: const Text('Войти', style: TextStyle(fontSize: 18))),
-      ],
-    )));
+    return Material(
+      color: const Color.fromRGBO(155, 155, 155, 0.5),
+      child: Center(
+          child: SizedBox(
+        width: 300,
+        height: 200,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(color: Colors.transparent),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Успех',
+                style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 40),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Войти', style: TextStyle(fontSize: 18)))
+            ],
+          ),
+        ),
+      )),
+    );
   }
 }

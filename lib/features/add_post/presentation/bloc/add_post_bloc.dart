@@ -5,8 +5,7 @@ import 'package:personal_blog/core/domain/entities/post_entity.dart';
 import 'package:personal_blog/core/domain/repository/repository.dart';
 import 'package:personal_blog/features/add_post/domain/use_cases/add_post.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../../user_profile/domain/data_storage.dart';
+import '../../../../core/data/storage/data_storage.dart';
 import '../../domain/use_cases/add_post_id_to_userdoc.dart';
 
 abstract class AddPostEvents {}
@@ -84,7 +83,11 @@ class AddPostBloc extends Bloc<AddPostEvents, AddPostStates> {
       AddPostUseCase addPostUseCase = AddPostUseCase();
       final String photoUrl = await addPostUseCase.addPost('posts', event.pickedPhoto);
       PostData postData = PostData(
-          imagePath: photoUrl, postDescription: event.postDescription, dateTime: Timestamp.now(), userId: userId);
+        imagePath: photoUrl,
+        postDescription: event.postDescription,
+        dateTime: Timestamp.now(),
+        userId: userId,
+      );
       repository.firestore.collection('posts').doc(uuid).set(postData.toJson());
       addPostToDoc(uuid);
       dataStorage.postData = null;

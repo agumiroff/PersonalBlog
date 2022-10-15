@@ -49,39 +49,41 @@ class SignUpBloc extends Bloc<SignUpEvents, SignUpStates> {
     on<SignUpCheckEvent>((event, emit) {
       CreateUserUseCase createUserUseCase = CreateUserUseCase();
       EmptyFieldCheck emptyFieldCheck = EmptyFieldCheck();
-      if (emptyFieldCheck.fieldsNotEmptyCheck(UserData(
+      UserData userData = UserData(
         email: event.emailController.text,
         password: event.passwordController.text,
         [],
         [],
         event.firstNameController.text,
         event.secondNameController.text,
-      ))) {
-        createUserUseCase.createUser(UserData(
-          email: event.emailController.text,
-          password: event.passwordController.text,
-          [],
-          [],
-          event.firstNameController.text,
-          event.secondNameController.text,
-        ));
-        Navigator.push(
+      );
+      if (emptyFieldCheck.fieldsNotEmptyCheck(userData)) {
+        try {
+          createUserUseCase.createUser(userData);
+          Navigator.push(
             event.context,
             PageRouteBuilder(
-                opaque: false,
-                pageBuilder: ((context, animation, secondaryAnimation) =>
-                    const SuccessPage(value: 'Вы успешно зарегистрированы'))));
+              opaque: false,
+              pageBuilder: ((context, animation, secondaryAnimation) => const SuccessPage()),
+            ),
+          );
+        } on Error catch (error) {
+          Navigator.push(
+            event.context,
+            PageRouteBuilder(
+              opaque: false,
+              pageBuilder: ((context, animation, secondaryAnimation) => const ErrorPage()),
+            ),
+          );
+        }
       } else {
         Navigator.push(
-            event.context,
-            PageRouteBuilder(
-                opaque: false,
-                pageBuilder: ((context, animation, secondaryAnimation) => ErrorScreen(
-                      value: 'Заполните все поля и повторите попытку',
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ))));
+          event.context,
+          PageRouteBuilder(
+            opaque: false,
+            pageBuilder: ((context, animation, secondaryAnimation) => const ErrorPage()),
+          ),
+        );
       }
     });
   }
