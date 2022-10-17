@@ -6,6 +6,9 @@ class CreateUserUseCase {
   createUser(UserData userData) async {
     UserCredential userCredential = await repository.firebaseAuth
         .createUserWithEmailAndPassword(email: userData.email, password: userData.password);
-    repository.firestore.collection('users').doc(userCredential.user!.uid).set(userData.toJson());
+    repository.firestore
+        .collection('users')
+        .doc(userCredential.user!.uid)
+        .set(userData.toJson(userCredential.user!.uid));
   }
 }

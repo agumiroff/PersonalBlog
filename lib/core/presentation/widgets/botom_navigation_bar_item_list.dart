@@ -5,7 +5,7 @@ const navigationBarItems = [
   MyBottomNavigationBarItem(
     icon: Icon(Icons.home),
     label: 'Home',
-    location: '/home',
+    location: '/',
   ),
   MyBottomNavigationBarItem(
     label: 'Search',

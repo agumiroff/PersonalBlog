@@ -6,7 +6,7 @@ class SelectImage {
   pickImageFromGallery() async {
     final ImagePicker imagePicker = ImagePicker();
 
-    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery, imageQuality: 50);
 
     if (file != null) {
       return await file.readAsBytes();

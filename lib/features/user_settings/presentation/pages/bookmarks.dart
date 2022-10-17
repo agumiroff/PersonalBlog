@@ -14,7 +14,6 @@ class BookMarks extends StatefulWidget {
 class _BookMarksState extends State<BookMarks> {
   @override
   void initState() {
-    BlocProvider.of<UserSettingsBloc>(context).add(ShowBookmarksEvent());
     super.initState();
   }
 

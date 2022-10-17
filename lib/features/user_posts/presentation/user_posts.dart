@@ -12,46 +12,47 @@ class UserPosts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: BlocBuilder<UserPostsBloc, UserPostsStates>(builder: (context, state) {
-        if (state is LoadingPosts) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (state is ShowMyPostsState) {
-          return Center(
-            child: Column(
-              children: [
-                SafeArea(
-                    child: Align(
-                  alignment: Alignment.topLeft,
-                  child: TextButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      child: Text('Cancel', style: textStyles.textButtonText)),
-                )),
-                Expanded(
-                  child: GridView.count(
-                    mainAxisSpacing: 1,
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 1,
-                    children: state.listOfData
-                        .map(
-                          (post) => GestureDetector(
-                            onTap: () {
-                              context.go('/my_posts/my_posts_feed');
-                            },
-                            child: Image.network(post.imagePath, fit: BoxFit.cover),
-                          ),
-                        )
-                        .toList(),
-                  ),
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SafeArea(
+          bottom: false,
+          child: TextButton(
+              onPressed: () {
+                context.pop();
+              },
+              child: Text('Cancel', style: textStyles.textButtonText)),
+        ),
+        BlocBuilder<UserPostsBloc, UserPostsStates>(builder: (context, state) {
+          if (state is ShowMyPostsState) {
+            if (state.listOfData.isEmpty) {
+              return const Center(child: Text('У вас нет постов, пока что :)'));
+            } else {
+              return Expanded(
+                child: GridView.count(
+                  mainAxisSpacing: 1,
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 1,
+                  children: state.listOfData
+                      .map(
+                        (post) => GestureDetector(
+                          onTap: () {
+                            context.go('/my_posts/my_posts_feed');
+                          },
+                          child: Image.network(post.imagePath, fit: BoxFit.cover),
+                        ),
+                      )
+                      .toList(),
                 ),
-              ],
-            ),
-          );
-        }
-        return const SizedBox.shrink();
-      }),
-    );
+              );
+            }
+          }
+          if (state is LoadingPosts) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return const SizedBox.shrink();
+        })
+      ],
+    ));
   }
 }

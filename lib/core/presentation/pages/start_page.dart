@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../features/user_settings/presentation/widgets/botom_navigation_bar_item_list.dart';
+import '../widgets/botom_navigation_bar_item_list.dart';
 
 class StartPage extends StatefulWidget {
   final Widget child;

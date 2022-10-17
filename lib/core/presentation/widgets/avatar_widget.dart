@@ -1,34 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../styles/styles.dart';
-
 class AvatarWidget extends StatelessWidget {
+  final String avatarLink;
+  final VoidCallback onTap;
   final String text;
   const AvatarWidget({
     Key? key,
     required this.text,
+    required this.onTap,
+    required this.avatarLink,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(200),
-          border: Border.all(
-            color: const Color(0xFFF2F2F2),
-            width: 4,
-          )),
-      width: 143.w,
-      height: 143.h,
-      padding: const EdgeInsets.all(8),
-      child: CircleAvatar(
-          radius: 100,
-          backgroundColor: Colors.blue,
-          child: Text(
-            text,
-            style: textStyles.headerText,
-          )),
+    return Stack(
+      children: [
+        SizedBox(
+          height: 120.h,
+          width: 120.w,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+                image: DecorationImage(image: NetworkImage(avatarLink), fit: BoxFit.cover),
+                border: Border.all(color: Colors.grey, width: 1),
+                shape: BoxShape.circle),
+          ),
+        ),
+        Positioned(
+          right: 0,
+          bottom: 0,
+          child: GestureDetector(
+            onTap: onTap,
+            child: const Icon(
+              Icons.add_circle,
+              size: 30,
+              color: Colors.blue,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:personal_blog/core/presentation/styles/styles.dart';
 
-class ProfileButtonWidget extends StatelessWidget {
+class UserSettingsButtonWidget extends StatelessWidget {
   final IconData icon;
   final String text;
   final VoidCallback onTap;
-  const ProfileButtonWidget({
+  const UserSettingsButtonWidget({
     Key? key,
     required this.icon,
     required this.text,

@@ -8,8 +8,14 @@ class UserProfileRepository {
     final currentUserId = repository.firebaseAuth.currentUser!.uid;
     DocumentSnapshot snapShot = await repository.firestore.collection('users').doc(currentUserId).get();
     tempMap = snapShot.data() as Map<String, dynamic>;
-    UserData userData = UserData(tempMap['posts'], tempMap['bookMarks'], tempMap['firstName'], tempMap['secondName'],
-        email: tempMap['email'], password: tempMap['password']); //
+    UserData userData = UserData(
+        tempMap['posts'],
+        tempMap['bookMarks'],
+        tempMap['firstName'],
+        tempMap['secondName'],
+        email: tempMap['email'],
+        password: tempMap['password'],
+        currentUserId, tempMap['avatar']); //
     return userData;
   }
 }
