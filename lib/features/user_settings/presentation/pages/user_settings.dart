@@ -56,9 +56,9 @@ class _UserSettingsState extends State<UserSettings> {
                 SizedBox(height: 25.h),
                 UserSettingsButtonWidget(
                   icon: Icons.bookmark,
-                  text: 'Bookmarks',
+                  text: 'My authors',
                   onTap: () {
-                    context.go('/profile_settings/bookmarks');
+                    context.go('/profile_settings/my_authors');
                   },
                 ),
                 SizedBox(height: 10.h),

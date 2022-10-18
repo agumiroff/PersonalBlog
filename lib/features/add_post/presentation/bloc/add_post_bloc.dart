@@ -65,12 +65,8 @@ class AddPostBloc extends Bloc<AddPostEvents, AddPostStates> {
   AddPostBloc() : super(AddPostStartState(null, '')) {
     var image;
     on<PickPhotoEvent>((event, emit) async {
-      if (image != null) {
-        emit(AddPostStartState(image, ''));
-      } else {
-        image = await SelectImage().pickImageFromGallery();
-        emit(AddPostStartState(image, ''));
-      }
+      image = await SelectImage().pickImageFromGallery();
+      emit(AddPostStartState(image, ''));
     });
     on<ResetEvent>((event, emit) {
       emit(AddPostStartState(null, ''));
