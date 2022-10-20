@@ -20,6 +20,7 @@ class SignInPage extends StatelessWidget {
       }
       if (state is SignInStartState) {
         return Scaffold(
+          backgroundColor: const Color(0xFFF2F2F6),
           body: Center(
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(vertical: 34.h, horizontal: 20.w),

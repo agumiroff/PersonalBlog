@@ -26,8 +26,8 @@ class _UserSettingsState extends State<UserSettings> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: BlocBuilder<UserSettingsBloc, UserProfileStates>(builder: (context, state) {
-        if (state is UserProfileLoadingState) {
+      child: BlocBuilder<UserSettingsBloc, UserSettingsStates>(builder: (context, state) {
+        if (state is UserSettingsLoadingState) {
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -35,51 +35,54 @@ class _UserSettingsState extends State<UserSettings> {
         if (state is ConfirmAvatarPick) {
           return ConfirmAvatarPage(avatar: state.avatar);
         }
-        if (state is UserProfileMainState) {
+        if (state is UserSettingsMainState) {
           return Material(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 45.h),
-                AvatarWidget(
-                  text: '${state.firstName[0]}${state.secondName[0]}',
-                  onTap: () {
-                    BlocProvider.of<UserSettingsBloc>(context).add(PickAvataFromGallery());
-                  },
-                  avatarLink: state.avatarLink,
-                ),
-                SizedBox(height: 10.h),
-                Text(
-                  '${state.firstName} ${state.secondName}',
-                  style: textStyles.headerText,
-                ),
-                SizedBox(height: 25.h),
-                UserSettingsButtonWidget(
-                  icon: Icons.bookmark,
-                  text: 'My authors',
-                  onTap: () {
-                    context.go('/profile_settings/my_authors');
-                  },
-                ),
-                SizedBox(height: 10.h),
-                UserSettingsButtonWidget(
-                  icon: Icons.folder,
-                  text: 'My posts',
-                  onTap: () {
-                    context.go('/profile_settings/my_posts');
-                  },
-                ),
-                SizedBox(height: 10.h),
-                UserSettingsButtonWidget(
-                  icon: Icons.edit,
-                  text: 'Edit profile',
-                  onTap: () {
-                    context.go('/profile_settings/edit_profile');
-                  },
-                ),
-                SizedBox(height: 209.h),
-                const LogOutButton(),
-              ],
+            child: DecoratedBox(
+              decoration: const BoxDecoration(color: Color(0xFFF2F2F6)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 45.h),
+                  AvatarWidget(
+                    text: '${state.firstName[0]}${state.secondName[0]}',
+                    onTap: () {
+                      BlocProvider.of<UserSettingsBloc>(context).add(PickAvataFromGallery());
+                    },
+                    avatarLink: state.avatarLink,
+                  ),
+                  SizedBox(height: 10.h),
+                  Text(
+                    '${state.firstName} ${state.secondName}',
+                    style: textStyles.headerText,
+                  ),
+                  SizedBox(height: 25.h),
+                  UserSettingsButtonWidget(
+                    icon: Icons.bookmark,
+                    text: 'My authors',
+                    onTap: () {
+                      context.go('/profile_settings/my_authors');
+                    },
+                  ),
+                  SizedBox(height: 10.h),
+                  UserSettingsButtonWidget(
+                    icon: Icons.folder,
+                    text: 'My posts',
+                    onTap: () {
+                      context.go('/profile_settings/my_posts');
+                    },
+                  ),
+                  SizedBox(height: 10.h),
+                  UserSettingsButtonWidget(
+                    icon: Icons.edit,
+                    text: 'Edit profile',
+                    onTap: () {
+                      context.go('/profile_settings/edit_profile');
+                    },
+                  ),
+                  SizedBox(height: 209.h),
+                  const LogOutButton(),
+                ],
+              ),
             ),
           );
         }

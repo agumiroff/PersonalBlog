@@ -20,7 +20,7 @@ class ConfirmAvatarPage extends StatelessWidget {
               children: [
                 TextButton(
                     onPressed: () {
-                      BlocProvider.of<UserSettingsBloc>(context).add(UserProfileMainEvent());
+                      BlocProvider.of<UserSettingsBloc>(context).add(UserSettingsMainEvent());
                     },
                     child: Text(
                       'Cancel',

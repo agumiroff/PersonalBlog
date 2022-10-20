@@ -10,32 +10,30 @@ import 'package:personal_blog/core/presentation/widgets/empty_avatar_picture.dar
 import 'package:personal_blog/features/add_post/domain/use_cases/select_image.dart';
 import '../../../../core/data/storage/data_storage.dart';
 import '../../../add_post/domain/use_cases/add_post.dart';
-import '../../domain/repository/repository.dart';
-import '../../domain/use_cases/get_list_of_posts.dart';
+import '../../../../core/domain/repository/get_user_data.dart';
+import '../../../../core/domain/repository/get_list_of_posts.dart';
 
 //================================States================================
-abstract class UserProfileStates {}
+abstract class UserSettingsStates {}
 
-class ConfirmAvatarPick extends UserProfileStates {
+class ConfirmAvatarPick extends UserSettingsStates {
   final Uint8List? avatar;
 
   ConfirmAvatarPick({required this.avatar});
 }
 
-class PreloadUserDataFailed extends UserProfileStates {}
+class PreloadUserDataFailed extends UserSettingsStates {}
 
-class UserProfileLoadingState extends UserProfileStates {}
+class UserSettingsLoadingState extends UserSettingsStates {}
 
-class ShowBookmarksState extends UserProfileStates {}
+class PreloadUserDataState extends UserSettingsStates {}
 
-class PreloadUserDataState extends UserProfileStates {}
-
-class UserProfileMainState extends UserProfileStates {
+class UserSettingsMainState extends UserSettingsStates {
   final String firstName;
   final String secondName;
   final String avatarLink;
 
-  UserProfileMainState({required this.avatarLink, required this.firstName, required this.secondName});
+  UserSettingsMainState({required this.avatarLink, required this.firstName, required this.secondName});
 }
 
 //================================Events================================
@@ -50,7 +48,7 @@ class UploadAvatarToGallery extends UserProfileEvents {
 
 class PickAvataFromGallery extends UserProfileEvents {}
 
-class UserProfileMainEvent extends UserProfileEvents {}
+class UserSettingsMainEvent extends UserProfileEvents {}
 
 class PreloadUserDataFailedEvent extends UserProfileEvents {}
 
@@ -66,22 +64,22 @@ class PreloadUserDataEvent extends UserProfileEvents {
   PreloadUserDataEvent(this.context);
 }
 
-class UserSettingsBloc extends Bloc<UserProfileEvents, UserProfileStates> {
-  UserSettingsBloc() : super(UserProfileLoadingState()) {
+class UserSettingsBloc extends Bloc<UserProfileEvents, UserSettingsStates> {
+  UserSettingsBloc() : super(UserSettingsLoadingState()) {
     on<PreloadUserDataEvent>((event, emit) async {
-      emit(UserProfileLoadingState());
+      emit(UserSettingsLoadingState());
       if (repository.firebaseAuth.currentUser == null) {
         print('=====================================');
         event.context.go('/sign_in');
       } else {
-        dataStorage.userData = await userProfileRepository.getUserData();
+        dataStorage.userData = await userProfileRepository.getUserData(repository.firebaseAuth.currentUser!.uid);
         dataStorage.postData ??= await GetListOfPosts().getListOfPosts(dataStorage.userData!);
-        add(UserProfileMainEvent());
+        add(UserSettingsMainEvent());
       }
     });
-    on<UserProfileMainEvent>((event, emit) async {
-      emit(UserProfileLoadingState());
-      emit(UserProfileMainState(
+    on<UserSettingsMainEvent>((event, emit) async {
+      emit(UserSettingsLoadingState());
+      emit(UserSettingsMainState(
         firstName: dataStorage.userData!.firstName,
         secondName: dataStorage.userData!.secondName,
         avatarLink: dataStorage.userData!.avatarLink.isEmpty ? emptyAvatarLink : dataStorage.userData!.avatarLink,
@@ -89,7 +87,7 @@ class UserSettingsBloc extends Bloc<UserProfileEvents, UserProfileStates> {
     });
 
     on<LogOutEvent>((event, emit) async {
-      emit(UserProfileLoadingState());
+      emit(UserSettingsLoadingState());
       repository.firebaseAuth.signOut();
       dataStorage.userData = null;
       dataStorage.postData = null;
@@ -104,7 +102,7 @@ class UserSettingsBloc extends Bloc<UserProfileEvents, UserProfileStates> {
       }
     });
     on<UploadAvatarToGallery>((event, emit) async {
-      emit(UserProfileLoadingState());
+      emit(UserSettingsLoadingState());
       if (dataStorage.userData!.avatarLink != '') {
         await repository.firebaseStorage.refFromURL(dataStorage.userData!.avatarLink).delete();
       }
@@ -114,9 +112,9 @@ class UserSettingsBloc extends Bloc<UserProfileEvents, UserProfileStates> {
         'userId': dataStorage.userData!.uid,
         'avatar': photoUrl,
       });
-      dataStorage.userData = await userProfileRepository.getUserData();
+      dataStorage.userData = await userProfileRepository.getUserData(repository.firebaseAuth.currentUser!.uid);
       dataStorage.postData ??= await GetListOfPosts().getListOfPosts(dataStorage.userData!);
-      emit(UserProfileMainState(
+      emit(UserSettingsMainState(
         firstName: dataStorage.userData!.firstName,
         secondName: dataStorage.userData!.secondName,
         avatarLink: dataStorage.userData!.avatarLink.isEmpty ? emptyAvatarLink : dataStorage.userData!.avatarLink,

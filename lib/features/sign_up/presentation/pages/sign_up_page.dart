@@ -17,6 +17,7 @@ class SignUpPage extends StatelessWidget {
       builder: (context, state) {
         if (state is SignUpStartState) {
           return Scaffold(
+            backgroundColor: const Color(0xFFF2F2F6),
             body: Center(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

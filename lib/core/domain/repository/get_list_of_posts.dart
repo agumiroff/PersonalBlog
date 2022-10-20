@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:personal_blog/core/domain/entities/user_entity.dart';
-import '../../../../core/domain/entities/post_entity.dart';
-import '../../../../core/domain/repository/repository.dart';
+import '../entities/post_entity.dart';
+import 'repository.dart';
 
 class GetListOfPosts {
   Future<List<PostData>> getListOfPosts(UserData userData) async {

@@ -56,7 +56,8 @@ class SignUpBloc extends Bloc<SignUpEvents, SignUpStates> {
         [],
         event.firstNameController.text,
         event.secondNameController.text,
-        '', '',
+        '',
+        '',
       );
       if (emptyFieldCheck.fieldsNotEmptyCheck(userData)) {
         try {

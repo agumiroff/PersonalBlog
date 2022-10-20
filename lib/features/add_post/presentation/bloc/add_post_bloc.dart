@@ -45,12 +45,7 @@ abstract class AddPostStates {}
 
 class LoadingState extends AddPostStates {}
 
-class AddPostStartState extends AddPostStates {
-  final Uint8List? image;
-  final String? postDescription;
-
-  AddPostStartState(this.image, this.postDescription);
-}
+class AddPostStartState extends AddPostStates {}
 
 class PreviewPostState extends AddPostStates {
   final Uint8List image;
@@ -62,14 +57,9 @@ class PreviewPostState extends AddPostStates {
 class SuccessfullUploadState extends AddPostStates {}
 
 class AddPostBloc extends Bloc<AddPostEvents, AddPostStates> {
-  AddPostBloc() : super(AddPostStartState(null, '')) {
-    var image;
-    on<PickPhotoEvent>((event, emit) async {
-      image = await SelectImage().pickImageFromGallery();
-      emit(AddPostStartState(image, ''));
-    });
+  AddPostBloc() : super(AddPostStartState()) {
     on<ResetEvent>((event, emit) {
-      emit(AddPostStartState(null, ''));
+      emit(AddPostStartState());
     });
     on<PreviewPostEvent>((event, emit) {
       if (event.pickedPhoto.isNotEmpty) {
@@ -77,7 +67,7 @@ class AddPostBloc extends Bloc<AddPostEvents, AddPostStates> {
           PreviewPostState(image: event.pickedPhoto, postDescription: event.postDescription),
         );
       } else {
-        emit(AddPostStartState(null, event.postDescription));
+        emit(AddPostStartState());
       }
     });
     on<AddPostEvent>((event, emit) async {

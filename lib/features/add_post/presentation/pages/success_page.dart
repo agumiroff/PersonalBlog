@@ -4,14 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/presentation/styles/styles.dart';
 import '../bloc/add_post_bloc.dart';
 
-class SuccessPage extends StatelessWidget {
-  const SuccessPage({Key? key}) : super(key: key);
+class SuccessfulUploadPage extends StatelessWidget {
+  const SuccessfulUploadPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Material(
       child: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Post successfull ulpoaded', style: textStyles.textStyle),
             SizedBox(height: 20.h),

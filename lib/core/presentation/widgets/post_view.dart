@@ -24,7 +24,7 @@ class PostView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(firstName),
+            Text(firstName, style: textStyles.textStyle),
             SizedBox(height: 10.h),
             SizedBox(
               width: 375.w,

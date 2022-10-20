@@ -12,11 +12,8 @@ class NextTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         onPressed: () {
-          print(image.runtimeType);
-          if (image.runtimeType == Uint8List) {
-            BlocProvider.of<AddPostBloc>(context)
-                .add(PreviewPostEvent(pickedPhoto: image, postDescription: postDescription.text));
-          }
+          BlocProvider.of<AddPostBloc>(context)
+              .add(PreviewPostEvent(pickedPhoto: image, postDescription: postDescription.text));
         },
         child: Text('Next', style: textStyles.textButtonText));
   }

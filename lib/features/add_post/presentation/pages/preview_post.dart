@@ -18,22 +18,19 @@ class PreviewPost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF2F2F6),
       appBar: AppBarWidget(
         actionButton: [PostButton(image: image, postDescription: postDescription)],
         leadingButton: CancelButton(postDescription: postDescription),
+        titleText: 'Post preview',
       ),
       body: Column(
         children: [
-          SafeArea(
-              child: Text(
-            'Post preview',
-            style: textStyles.headerText,
-          )),
-          SizedBox(height: 20.h),
           SizedBox(
-              height: 400.h,
-              width: 400.w,
-              child: Image(image: MemoryImage(image), fit: BoxFit.cover,)),
+            height: 400.h,
+            width: 400.w,
+            child: Image(image: MemoryImage(image), fit: BoxFit.cover),
+          ),
           SizedBox(height: 20.h),
           SizedBox(
             height: 200.h,
@@ -81,7 +78,9 @@ class PostButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         onPressed: () {
-          BlocProvider.of<AddPostBloc>(context).add(AddPostEvent(pickedPhoto: image, postDescription: postDescription));
+          BlocProvider.of<AddPostBloc>(context).add(
+            AddPostEvent(pickedPhoto: image, postDescription: postDescription),
+          );
         },
         child: Text(
           'Post',
